@@ -1,19 +1,31 @@
 ---
 name: Application CI Pipeline on Push
 env:
-  CONTAINER_IMAGE: deepakjotwani/sample2
+  ARTIFACTORY_SCRATCH_BUCKET: eng-docker-scratch-local
+  CONTAINER_SCRATCH_IMAGE: beyondtrust-$ARTIFACTORY_SCRATCH_BUCKET.jfrog.io/beyondtrust/cloud-privilege-broker/hostmachine
+  ARTIFACTORY_PROD_BUCKET: eng-docker-prod-local
+  CONTAINER_PROD_IMAGE: beyondtrust-$ARTIFACTORY_PROD_BUCKET.jfrog.io/beyondtrust/cloud-privilege-broker/hostmachine
 
 on:
-  schedule:
-    - cron: '0 12 * * *'
-    - cron: '30 2 * * *'
+  push:
+    branches: [master, task/*, feature/*]
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./src
+
 jobs:
-  build-publish-docker:
+  master:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Build
+        run: echo master
 
-    - name: Build
-      run: |
-        echo hello
+  task-feature:
+    if: github.ref == 'refs/heads/task*' || github.ref == 'refs/heads/feature*'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: echo other
