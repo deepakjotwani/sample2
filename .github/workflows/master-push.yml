@@ -14,10 +14,8 @@ jobs:
         run: echo "The selected branch is ${{ github.ref }}"
   
   task-feature:
-    if: |
-      github.ref == 'refs/heads/task/*' || 
-      github.ref == 'refs/heads/feature/*'
-    runs-on: echo-branch-task-feature
+    if: github.ref == 'refs/heads/task/*' || github.ref == 'refs/heads/feature/*'
+    runs-on: ubuntu-latest
     steps:
-      - name: Build
+      - name: echo-branch-test-feature
         run: echo "The selected branch is ${{ github.ref }}"
