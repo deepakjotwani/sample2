@@ -15,7 +15,7 @@ jobs:
   
   task-feature:
     if: |
-      github.ref != 'refs/heads/task/*' || 
+      github.ref == 'refs/heads/task/*' || 
       github.ref == 'refs/heads/feature/*'
     runs-on: echo-branch-task-feature
     steps:
