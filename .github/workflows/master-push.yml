@@ -1,10 +1,5 @@
 ---
-name: Application CI Pipeline on Push
-env:
-  ARTIFACTORY_SCRATCH_BUCKET: eng-docker-scratch-local
-  CONTAINER_SCRATCH_IMAGE: beyondtrust-$ARTIFACTORY_SCRATCH_BUCKET.jfrog.io/beyondtrust/cloud-privilege-broker/hostmachine
-  ARTIFACTORY_PROD_BUCKET: eng-docker-prod-local
-  CONTAINER_PROD_IMAGE: beyondtrust-$ARTIFACTORY_PROD_BUCKET.jfrog.io/beyondtrust/cloud-privilege-broker/hostmachine
+name: Test
 
 on:
   push:
