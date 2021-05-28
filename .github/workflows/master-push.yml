@@ -15,12 +15,12 @@ jobs:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - name: Build
-        run: echo master
-
+      - name: echo-branch-master
+        run: echo "The selected branch is ${{ github.ref }}"
+  
   task-feature:
     if: github.ref == 'refs/heads/task*' || github.ref == 'refs/heads/feature*'
-    runs-on: ubuntu-latest
+    runs-on: echo-branch-task-feature
     steps:
       - name: Build
-        run: echo other
+        run: echo "The selected branch is ${{ github.ref }}"
