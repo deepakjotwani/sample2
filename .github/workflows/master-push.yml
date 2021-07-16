@@ -2,20 +2,14 @@
 name: Test
 
 on:
-  push:
-    branches: [master, task/*, feature/*]
-
+  pull_request:
+    branches:
+      - "**"
 jobs:
   master:
-    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - name: echo-branch-master
-        run: echo "The selected branch is ${{ github.ref }}"
-  
-  task-feature:
-    if: github.ref != 'refs/heads/master'
-    runs-on: ubuntu-latest
-    steps:
-      - name: echo-branch-test-feature
-        run: echo "The selected branch is ${{ github.ref }}"
+      - name: echo-secret
+        run: echo $USERNAME
+    env:
+        USERNAME: ${{ secrets.DOCKER_USERNAME }}
