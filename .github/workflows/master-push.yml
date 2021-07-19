@@ -5,6 +5,12 @@ on:
   pull_request:
     branches:
       - "**"
+  workflow_run:
+    workflows: ["Dependabot PR Workflow"]
+    branches:
+      - 'dependabot/**'
+    types:
+      - requested    
 jobs:
   master:
     runs-on: ubuntu-latest
