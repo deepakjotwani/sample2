@@ -19,7 +19,7 @@ jobs:
 
     - name: Build and tag docker image
       run: |
-         docker build . -t ${{ env.CONTAINER_IMAGE }}:sandbox_1.0
+         docker build . -t ${{ env.CONTAINER_IMAGE }}:1.0
 
     - name: Publish docker image to dockerhub
-      run: docker push ${{ env.CONTAINER_IMAGE }}:sandbox_1.0
+      run: docker push ${{ env.CONTAINER_IMAGE }}:1.0
