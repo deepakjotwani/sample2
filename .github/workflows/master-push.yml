@@ -1,32 +1,25 @@
 ---
-name: Test
-
+name: Application CI Pipeline on Push
+env:
+  CONTAINER_IMAGE: deepakjotwani/sample1
 on:
-  pull_request:
-    branches:
-      - "**"
-  workflow_run:
-    workflows: ["Dependabot PR Workflow"]
-    branches:
-      - 'dependabot/**'
-    types:
-      - requested    
+  push:
+    branches: [master]
+
 jobs:
-  master:
+  build-publish-docker:
     runs-on: ubuntu-latest
-    if: ${{ (github.actor == 'dependabot[bot]' && (github.event.action == 'requested' || github.event.action == 'completed')) || (github.actor != 'dependabot[bot]') }}
     steps:
-      - name: Checkout Code for dependabot PR
-        if: ${{ github.actor == 'dependabot[bot]' }}
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Check out Code
-        if: ${{ github.actor != 'dependabot[bot]' }}
-        uses: actions/checkout@v2
+    - name: Build
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: echo-secret
-        run: echo $USERNAME
-    env:
-        USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    - name: Build and tag docker image
+      run: |
+         docker build . -t ${{ env.CONTAINER_IMAGE }}:1.0
+
+    - name: Publish docker image to dockerhub
+      run: docker push ${{ env.CONTAINER_IMAGE }}:1.0
