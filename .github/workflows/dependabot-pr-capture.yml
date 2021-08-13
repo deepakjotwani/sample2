@@ -1,17 +1,14 @@
 ---
-name: Dependabot PR Workflow
+name: Test
+env:
+  CONTAINER_IMAGE: deepakjotwani/sample2
 on:
-  pull_request_target
+  push:
+    branches: [master]
 
 jobs:
-  check-dependabot:
+  Test:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
-      - name: Summarize checks
-        uses: lewagon/wait-on-check-action@master
-        with:
-          ref: ${{ github.event.pull_request.head.sha }} # can be commit SHA or tag too
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 30
-          running-workflow-name: check-dependabot
+    - name: Test
+      run: echo qa_${GITHUB_SHA::7}
